@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import requests
 import difflib
-import pin
+from pin import TOKEN
 import   status7d
 import threading
 import asyncio
