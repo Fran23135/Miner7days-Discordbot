@@ -205,7 +205,7 @@ def iniciar_flask():
         print(f"📁 Directorio temporal creado: {temp_dir}")
     
     # Importante: desactivar reloader y usar threaded=True
-    app.run(debug=False, port=80, host='127.0.0.1', use_reloader=False, threaded=True)
+    app.run(debug=False, port=8000, host='0.0.0.0', use_reloader=False, threaded=True)
 
 
 @bot.command()
@@ -803,6 +803,6 @@ async def on_ready():
         bot.flask_iniciado = True
 
 
-bot.run(pin.TOKEN)
+bot.run(os.getenv('TOKEN'))
 
 
