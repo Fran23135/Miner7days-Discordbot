@@ -1,0 +1,9 @@
+discord.py
+flask
+requests
+threading
+status7d
+asyncio
+flask
+random
+difflib
