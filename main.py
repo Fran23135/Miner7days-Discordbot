@@ -3,7 +3,7 @@ from discord.ext import commands
 import requests
 import difflib
 from pin import TOKEN
-import   status7d
+import status7d
 import threading
 import asyncio
 from flask import Flask, app, render_template, render_template_string, request, jsonify
