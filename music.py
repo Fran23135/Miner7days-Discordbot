@@ -31,6 +31,11 @@ YTDLP_OPTS = {
     "noplaylist": True,
     "default_search": "ytsearch",
     "cookiefile": os.path.join(BASE_DIR, "cookies.txt"),
+    "format": "bestaudio/best",
+    "postprocessors": [{
+        "key": "FFmpegExtractAudio",
+        "preferredcodec": "opus",
+    }],
 }
 
 FFMPEG_OPTS = {
