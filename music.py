@@ -12,7 +12,8 @@ import imageio_ffmpeg
 import json
 import os
 from config import ROLES, DESARROLLADOR_ID
-
+import sys
+sys.stdout.reconfigure(line_buffering=True)
 # ── Rutas ──────────────────────────────────────────────────────────────────
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR  = os.path.join(BASE_DIR, "Cache")
