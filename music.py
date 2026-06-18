@@ -25,19 +25,38 @@ COLOR        = 0x8B0000
 MAX_DURATION = 600  # 10 minutos en segundos
 FFMPEG_EXE   = imageio_ffmpeg.get_ffmpeg_exe()
 
-YTDLP_OPTS = {
-    "format":         "bestaudio",
-    "quiet":          True,
-    "noplaylist":     True,
-    "default_search": "ytsearch",
-    "extractor_args": {
-        "youtube": {
-            "player_client": ["android"],
+# ── PO Token (evasión de detección de bots en YouTube) ────────────────────
+# Carga desde variables de entorno en Render.
+# Ver guía de configuración en: docs/po_token_setup.md
+_YT_PO_TOKEN    = os.environ.get("YOUTUBE_PO_TOKEN", "").strip()
+_YT_VISITOR     = os.environ.get("YOUTUBE_VISITOR_DATA", "").strip()
+
+def _build_ytdlp_opts() -> dict:
+    """Construye las opciones de yt-dlp con o sin PO Token según el entorno."""
+    opts: dict = {
+        "format":         "bestaudio[ext=webm]/bestaudio[ext=m4a]/bestaudio",
+        "quiet":          True,
+        "noplaylist":     True,
+        "default_search": "ytsearch",
+        # Sin js_runtimes: Render no tiene Node.js disponible
+    }
+
+    if _YT_PO_TOKEN and _YT_VISITOR:
+        # Modo autenticado — PO Token + Visitor Data
+        opts["extractor_args"] = {
+            "youtube": {
+                "po_token":     [f"web+{_YT_PO_TOKEN}"],
+                "visitor_data": [_YT_VISITOR],
+            }
         }
-    },
-}
-print(f"[DEBUG] cookiefile path: {os.path.join(BASE_DIR, 'cookies.txt')}")
-print(f"[DEBUG] cookiefile exists: {os.path.exists(os.path.join(BASE_DIR, 'cookies.txt'))}")
+        print("[YTDLP] ✅ Modo PO Token activo")
+    else:
+        print("[YTDLP] ⚠ Sin PO Token — YouTube puede bloquear peticiones en Render")
+
+    return opts
+
+YTDLP_OPTS = _build_ytdlp_opts()
+
 FFMPEG_OPTS = {
     "before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5",
     "options": "-vn",
