@@ -36,6 +36,8 @@ YTDLP_OPTS = {
         "preferredcodec": "opus",
     }],
 }
+print(f"[DEBUG] cookiefile path: {os.path.join(BASE_DIR, 'cookies.txt')}")
+print(f"[DEBUG] cookiefile exists: {os.path.exists(os.path.join(BASE_DIR, 'cookies.txt'))}")
 FFMPEG_OPTS = {
     "before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5",
     "options": "-vn",
