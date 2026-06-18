@@ -30,8 +30,7 @@ YTDLP_OPTS = {
     "quiet": True,
     "noplaylist": True,
     "default_search": "ytsearch",
-    "js_runtimes": {"node": {}},
-    
+    "cookiefile": os.path.join(BASE_DIR, "cookies.txt"),
 }
 
 FFMPEG_OPTS = {
