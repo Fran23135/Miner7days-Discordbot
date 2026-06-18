@@ -26,15 +26,15 @@ MAX_DURATION = 600  # 10 minutos en segundos
 FFMPEG_EXE   = imageio_ffmpeg.get_ffmpeg_exe()
 
 YTDLP_OPTS = {
-    "quiet": True,
-    "noplaylist": True,
+    "format":         "bestaudio",
+    "quiet":          True,
+    "noplaylist":     True,
     "default_search": "ytsearch",
-    "cookiefile": os.path.join(BASE_DIR, "cookies.txt"),
-    "format": "bestaudio/best",
-    "postprocessors": [{
-        "key": "FFmpegExtractAudio",
-        "preferredcodec": "opus",
-    }],
+    "extractor_args": {
+        "youtube": {
+            "player_client": ["android"],
+        }
+    },
 }
 print(f"[DEBUG] cookiefile path: {os.path.join(BASE_DIR, 'cookies.txt')}")
 print(f"[DEBUG] cookiefile exists: {os.path.exists(os.path.join(BASE_DIR, 'cookies.txt'))}")
