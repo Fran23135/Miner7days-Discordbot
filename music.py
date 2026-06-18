@@ -26,16 +26,12 @@ MAX_DURATION = 600  # 10 minutos en segundos
 FFMPEG_EXE   = imageio_ffmpeg.get_ffmpeg_exe()
 
 YTDLP_OPTS = {
-    "format": "bestaudio/best",
+    "format": "bestaudio[ext=webm]/bestaudio[ext=m4a]/bestaudio",
     "quiet": True,
     "noplaylist": True,
     "default_search": "ytsearch",
     "cookiefile": os.path.join(BASE_DIR, "cookies.txt"),
-    "format": "bestaudio/best",
-    "postprocessors": [{
-        "key": "FFmpegExtractAudio",
-        "preferredcodec": "opus",
-    }],
+    "js_runtimes": {"node": {}},
 }
 
 FFMPEG_OPTS = {
