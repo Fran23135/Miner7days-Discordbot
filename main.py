@@ -1977,26 +1977,26 @@ async def modlist(ctx):
 
 @bot.event
 async def on_ready():
-    #await _db_niveles.init_db()
-    #await _init_rangos(bot)   # carga rangos_ids.json si ya existe
-    #await _init_miembros(bot)
+    await _db_niveles.init_db()
+    await _init_rangos(bot)   # carga rangos_ids.json si ya existe
+    await _init_miembros(bot)
  
     # ── NUEVO: cargar cog de niveles ──────────────────────────────────
-    '''if "niveles"      not in bot.extensions:
+    if "niveles"      not in bot.extensions:
         await bot.load_extension("niveles")
     if "crear_rangos" not in bot.extensions:
         await bot.load_extension("crear_rangos")
     if "devdb"        not in bot.extensions:
         await bot.load_extension("devdb")
-        '''
-    await bot.load_extension("tess_cog")    
+        
+    #await bot.load_extension("tess_cog")    
     await bot.load_extension("ticket")
     await bot.load_extension("battle")
     await bot.load_extension("trivia")
     await bot.load_extension("decoracion")
     await bot.load_extension("mods")
     await bot.load_extension("userhelp")
-    await bot.load_extension("music")
+    #await bot.load_extension("music")
     await bot.load_extension("time_cog")
    # if "events" not in bot.extensions:   # ← Guarda antes de cargar
         #await bot.load_extension("events")
