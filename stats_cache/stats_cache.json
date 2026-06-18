@@ -1,0 +1,21 @@
+{
+  "data": {
+    "bloodMoonFrequency": 7,
+    "day": 186,
+    "nextHordeDay": 189,
+    "nextHordeIn": "3d 07:34",
+    "players": [
+      {
+        "deaths": 1,
+        "level": 72,
+        "name": "OQ49",
+        "ping": 102,
+        "score": 3026,
+        "zombies": 3069
+      }
+    ],
+    "playersOnline": 1,
+    "time": "14:26"
+  },
+  "cached_at": 1778817588.9928606
+}

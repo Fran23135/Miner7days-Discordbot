@@ -1,0 +1,22 @@
+[
+  {
+    "anime_name": "Watashi ni Tenshi ga Maiorita",
+    "url": "https://nekos.best/api/v2/clap/313f796a-8373-4271-8ffc-15982dc28717.gif"
+  },
+  {
+    "anime_name": "MF Ghost",
+    "url": "https://nekos.best/api/v2/clap/7089bc12-1dd5-448c-9b73-61b577a7edfa.gif",
+    "dimensions": {
+      "width": 498,
+      "height": 281
+    }
+  },
+  {
+    "anime_name": "Hitsugi no Chaika",
+    "url": "https://nekos.best/api/v2/clap/a988e0e8-8e25-4253-a778-fdab574c0ee3.gif",
+    "dimensions": {
+      "width": 498,
+      "height": 280
+    }
+  }
+]

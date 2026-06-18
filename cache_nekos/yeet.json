@@ -1,0 +1,50 @@
+[
+  {
+    "anime_name": "Takt Op. Destiny",
+    "url": "https://nekos.best/api/v2/yeet/52f6aa46-3e16-484a-be55-72bb88b8906c.gif"
+  },
+  {
+    "anime_name": "Chuunibyou demo Koi ga Shitai! Ren",
+    "url": "https://nekos.best/api/v2/yeet/bb594e5f-cd08-4cb0-a816-26c04d1d1736.gif"
+  },
+  {
+    "anime_name": "Saigo ni Hitotsu dake Onegai Shite mo Yoroshii Deshou ka",
+    "url": "https://nekos.best/api/v2/yeet/ae4dda45-2175-4576-b957-58dcc1362284.gif"
+  },
+  {
+    "anime_name": "One Piece",
+    "url": "https://nekos.best/api/v2/yeet/4dcafde2-4af6-421c-be64-be23deb80f7a.gif"
+  },
+  {
+    "anime_name": "Black Clover",
+    "url": "https://nekos.best/api/v2/yeet/a7884aab-df95-4b18-8247-604b5dc27309.gif",
+    "dimensions": {
+      "width": 540,
+      "height": 304
+    }
+  },
+  {
+    "anime_name": "One Piece",
+    "url": "https://nekos.best/api/v2/yeet/bd0af6f9-aabe-4d69-a467-4727ee6ebee0.gif",
+    "dimensions": {
+      "width": 600,
+      "height": 337
+    }
+  },
+  {
+    "anime_name": "Shikkaku Mon no Saikyou Kenja",
+    "url": "https://nekos.best/api/v2/yeet/a16bf60c-7600-4302-8ac3-a59714fdbd05.gif",
+    "dimensions": {
+      "width": 640,
+      "height": 360
+    }
+  },
+  {
+    "anime_name": "Akiba Meido Sensou",
+    "url": "https://nekos.best/api/v2/yeet/ebea8fc4-ccb6-4b4b-9c13-62a45a94b4ae.gif",
+    "dimensions": {
+      "width": 498,
+      "height": 280
+    }
+  }
+]

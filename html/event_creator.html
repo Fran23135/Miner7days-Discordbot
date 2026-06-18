@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Creator — 7 Days to Die</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg:        #0a0a0a;
+    --surface:   #111111;
+    --surface2:  #1a1a1a;
+    --border:    #2a2a2a;
+    --accent:    #c8382a;
+    --accent2:   #e8a020;
+    --text:      #e8e4dc;
+    --muted:     #666;
+    --ok:        #3a8c5c;
+    --radius:    2px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--accent);
+  }
+  .logo span { color: var(--text); }
+
+  .header-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 32px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* ── PANEL ── */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .panel-header {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .panel-header .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .panel-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .panel-body { padding: 24px 20px; }
+
+  /* ── FORM ── */
+  .field { margin-bottom: 20px; }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  label .req { color: var(--accent); margin-left: 3px; }
+  label .opt { color: #444; margin-left: 6px; font-size: 10px; text-transform: none; letter-spacing: 0; }
+
+  input[type="text"], textarea, select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+    resize: vertical;
+  }
+
+  input[type="text"]:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+  }
+
+  textarea { min-height: 90px; }
+
+  .char-count {
+    text-align: right;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ── CHECKBOX ── */
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    user-select: none;
+    transition: border-color 0.15s;
+  }
+  .check-row:hover { border-color: var(--accent); }
+
+  .check-row input[type="checkbox"] {
+    width: 16px; height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .check-row .check-label {
+    font-size: 13px;
+    color: var(--text);
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  /* ── CATEGORÍAS ── */
+  .cats-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+
+  .cat-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .cat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--accent);
+    min-width: 22px;
+    line-height: 1.2;
+  }
+
+  .cat-content { flex: 1; min-width: 0; }
+
+  .cat-nombre {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+    word-break: break-word;
+  }
+
+  .cat-desc {
+    font-size: 11px;
+    color: var(--muted);
+    word-break: break-word;
+  }
+
+  .cat-remove {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 4px;
+    border-radius: 2px;
+    transition: color 0.15s;
+    line-height: 1;
+  }
+  .cat-remove:hover { color: var(--accent); }
+
+  /* ── ADD CAT FORM ── */
+  .add-cat-form {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-top: 10px;
+    display: none;
+  }
+  .add-cat-form.open { display: block; }
+  .add-cat-form .field { margin-bottom: 10px; }
+  .add-cat-form .field:last-of-type { margin-bottom: 0; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: var(--radius);
+    font-size: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { background: #a82e22; border-color: #a82e22; }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--accent2);
+    border-color: var(--accent2);
+  }
+  .btn-ghost:hover { background: var(--accent2); color: #000; }
+
+  .btn-ok {
+    background: var(--ok);
+    color: #fff;
+    border-color: var(--ok);
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 13px;
+  }
+  .btn-ok:hover { background: #2e7049; }
+
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* ── OUTPUT PANEL ── */
+  .output-sticky {
+    position: sticky;
+    top: 72px;
+  }
+
+  .json-display {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: #8a9bb0;
+    max-height: 440px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .json-key   { color: #5a9fd4; }
+  .json-str   { color: #98c379; }
+  .json-num   { color: #e5c07b; }
+  .json-bool  { color: #c678dd; }
+  .json-null  { color: var(--muted); }
+
+  /* ── STATUS ── */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+  .status-dot.ok { background: var(--ok); }
+  .status-dot.warn { background: var(--accent2); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+  }
+
+  /* ── COPY TOAST ── */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ok);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.2s;
+    pointer-events: none;
+    z-index: 999;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── IMAGE UPLOAD ── */
+  .img-upload-area {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    padding: 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    position: relative;
+  }
+  .img-upload-area:hover { border-color: var(--accent); }
+  .img-upload-area input[type="file"] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .img-upload-area .upload-hint {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .img-preview {
+    margin-top: 10px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: none;
+  }
+  .img-preview img { width: 100%; max-height: 160px; object-fit: cover; display: block; }
+  .img-preview-info {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 10px;
+    background: var(--surface2);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .img-preview-info .remove-img { cursor: pointer; color: var(--accent); }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">7<span>DAYS</span> <span style="color:var(--muted);font-size:14px;letter-spacing:1px">// EVENT CREATOR</span></div>
+  <div class="header-tag">MOD TOOL v1.0 — LOCAL USE ONLY</div>
+</header>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════ FORM ═══════════════════════════════════════ -->
+  <div>
+
+    <!-- INFO BÁSICA -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-header">
+        <div class="dot"></div>
+        <div class="panel-title">Información del Evento</div>
+      </div>
+      <div class="panel-body">
+
+        <div class="field">
+          <label>Título <span class="req">*</span></label>
+          <input type="text" id="titulo" maxlength="80" placeholder="Ej: Evento de Construcción — Temporada 2" oninput="update()">
+          <div class="char-count"><span id="c-titulo">0</span>/80</div>
+        </div>
+
+        <div class="field">
+          <label>Descripción corta <span class="req">*</span> <span class="opt">— aparece en el select de Discord</span></label>
+          <input type="text" id="desc_corta" maxlength="150" placeholder="Una línea breve que describe el evento..." oninput="update()">
+          <div class="char-count"><span id="c-desc_corta">0</span>/150</div>
+        </div>
+
+        <div class="field">
+          <label>Descripción larga <span class="req">*</span> <span class="opt">— texto completo del evento</span></label>
+          <textarea id="desc_larga" maxlength="2000" placeholder="Explica el evento con todo el detalle necesario..." oninput="update()"></textarea>
+          <div class="char-count"><span id="c-desc_larga">0</span>/2000</div>
+        </div>
+
+        <div class="field">
+          <label>Recompensas <span class="opt">— opcional</span></label>
+          <input type="text" id="recompensas" maxlength="200" placeholder="Ej: 1 lote de recursos + título VIP" oninput="update()">
+        </div>
+
+        <div class="field">
+          <label>Imagen del evento <span class="opt">— opcional · se sube a ImgBB</span></label>
+          <div class="img-upload-area" id="upload-area">
+            <input type="file" id="img-input" accept="image/*" onchange="handleImage(this)">
+            <div class="upload-hint" id="upload-hint">Haz clic o arrastra una imagen aquí</div>
+          </div>
+          <div class="img-preview" id="img-preview">
+            <img id="img-thumb" src="" alt="preview">
+            <div class="img-preview-info">
+              <span id="img-status">Subiendo...</span>
+              <span class="remove-img" onclick="removeImage()">✕ Quitar</span>
+            </div>
+          </div>
+          <div style="margin-top:8px">
+            <label>ImgBB API Key <span class="req">*</span> <span class="opt">— solo para subir imagen</span></label>
+            <input type="text" id="imgbb-key" placeholder="Tu API key de ImgBB..." style="font-family:'IBM Plex Mono',monospace;font-size:12px">
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="field">
+          <label>Opciones</label>
+          <label class="check-row" style="margin-bottom:8px">
+            <input type="checkbox" id="requiere_inscripcion" onchange="update()">
+            <span class="check-label">Requiere inscripción obligatoria para participar</span>
+          </label>
+          <label class="check-row">
+            <input type="checkbox" id="activo" checked onchange="update()">
+            <span class="check-label">Evento activo al publicar</span>
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CATEGORÍAS -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="dot" style="background:var(--accent2)"></div>
+        <div class="panel-title">Categorías <span style="color:#444;margin-left:8px">— opcional</span></div>
+      </div>
+      <div class="panel-body">
+
+        <div id="cats-list" class="cats-list"></div>
+
+        <div id="add-cat-form" class="add-cat-form">
+          <div class="section-label">Nueva Categoría</div>
+          <div class="field">
+            <label>Nombre <span class="req">*</span></label>
+            <input type="text" id="cat-nombre" maxlength="80" placeholder="Ej: 1️⃣ La Gran Arena de Gladiadores">
+          </div>
+          <div class="field">
+            <label>Resumen corto <span class="opt">— descripción breve para el select</span></label>
+            <input type="text" id="cat-resumen" maxlength="100" placeholder="Ej: Coliseo para combates PvP o PvE">
+          </div>
+          <div class="field">
+            <label>Detalles / Requisitos</label>
+            <textarea id="cat-detalles" maxlength="500" placeholder="Describe qué debe construir o hacer el participante..."></textarea>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="addCat()">+ Añadir</button>
+            <button class="btn btn-secondary" onclick="closeCatForm()">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-top:14px">
+          <button class="btn btn-secondary" onclick="openCatForm()">+ Nueva categoría</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════ OUTPUT ═══════════════════════════════════════ -->
+  <div class="output-sticky">
+
+    <div class="panel">
+      <div class="panel-header">
+        <div class="dot" style="background:var(--ok)"></div>
+        <div class="panel-title">JSON Generado</div>
+      </div>
+
+      <div class="panel-body" style="padding:14px">
+        <div class="json-display" id="json-output"></div>
+      </div>
+
+      <div style="padding:0 14px 14px">
+        <div class="btn-row" style="justify-content:center">
+          <button class="btn btn-ghost" onclick="downloadJSON()">↓ Descargar events.json</button>
+          <button class="btn btn-secondary" onclick="resetForm()">↺ Limpiar</button>
+        </div>
+      </div>
+
+      <div class="status-bar">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="status-text">Rellena los campos obligatorios</span>
+      </div>
+    </div>
+
+    <!-- INSTRUCCIONES -->
+    <div class="panel" style="margin-top:16px">
+      <div class="panel-header">
+        <div class="dot" style="background:var(--muted)"></div>
+        <div class="panel-title">Cómo usar</div>
+      </div>
+      <div class="panel-body" style="font-size:12px;color:var(--muted);line-height:1.8">
+        <p>1. Rellena los campos del evento.</p>
+        <p>2. Añade categorías si el evento las necesita.</p>
+        <p>3. Si quieres imagen, sube el archivo e introduce tu API key de ImgBB.</p>
+        <p>4. Descarga el JSON y cárgalo en el bot con !addevent.</p>
+        <p style="margin-top:10px;color:#555">El ID del evento se genera automáticamente como UUID corto.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast">✓ Copiado al portapapeles</div>
+
+<script>
+  // ── Estado ──────────────────────────────────────────────────────────────
+  let cats = [];
+  let catCounter = 0;
+  let eventImageUrl = null;
+
+  // ── ImgBB upload ──────────────────────────────────────────────────────
+  async function handleImage(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    // Preview local inmediato
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('img-thumb').src = e.target.result;
+      document.getElementById('img-preview').style.display = 'block';
+      document.getElementById('img-status').textContent = 'Subiendo a ImgBB...';
+      document.getElementById('upload-hint').textContent = file.name;
+    };
+    reader.readAsDataURL(file);
+
+    const key = document.getElementById('imgbb-key').value.trim();
+    if (!key) {
+      document.getElementById('img-status').textContent = '⚠️ Introduce la API key primero';
+      return;
+    }
+
+    try {
+      const b64 = await toBase64(file);
+      const form = new FormData();
+      form.append('key', key);
+      form.append('image', b64.split(',')[1]);
+      form.append('name', file.name.replace(/\.[^.]+$/, ''));
+
+      const res  = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: form });
+      const data = await res.json();
+
+      if (data.success) {
+        eventImageUrl = data.data.url;
+        document.getElementById('img-status').textContent = '✅ Subida correcta';
+        update();
+      } else {
+        document.getElementById('img-status').textContent = '❌ Error: ' + (data.error?.message || 'fallo ImgBB');
+      }
+    } catch (e) {
+      document.getElementById('img-status').textContent = '❌ Error de red';
+    }
+  }
+
+  function toBase64(file) {
+    return new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload  = () => res(r.result);
+      r.onerror = () => rej(r.error);
+      r.readAsDataURL(file);
+    });
+  }
+
+  function removeImage() {
+    eventImageUrl = null;
+    document.getElementById('img-input').value = '';
+    document.getElementById('img-preview').style.display = 'none';
+    document.getElementById('img-thumb').src = '';
+    document.getElementById('upload-hint').textContent = 'Haz clic o arrastra una imagen aquí';
+    update();
+  }
+
+  // ── Generar UUID corto ────────────────────────────────────────────────
+  function shortUUID() {
+    return 'xxxxxxxx'.replace(/x/g, () =>
+      Math.floor(Math.random() * 16).toString(16));
+  }
+
+  // ── Contadores de caracteres ──────────────────────────────────────────
+  function setupCounters() {
+    ['titulo', 'desc_corta', 'desc_larga'].forEach(id => {
+      const el = document.getElementById(id);
+      const cnt = document.getElementById('c-' + id);
+      if (el && cnt) {
+        el.addEventListener('input', () => { cnt.textContent = el.value.length; });
+      }
+    });
+  }
+
+  // ── Construir objeto evento ───────────────────────────────────────────
+  function buildEvent() {
+    return {
+      titulo:               (document.getElementById('titulo').value || '').trim(),
+      desc_corta:           (document.getElementById('desc_corta').value || '').trim(),
+      desc_larga:           (document.getElementById('desc_larga').value || '').trim(),
+      recompensas:          (document.getElementById('recompensas').value || '').trim() || null,
+      requiere_inscripcion: document.getElementById('requiere_inscripcion').checked,
+      activo:               document.getElementById('activo').checked,
+      imagenes:             eventImageUrl ? [eventImageUrl] : [],
+      categorias:           cats.map((c, i) => ({ num: i + 1, ...c })),
+      participantes:        [],
+      pruebas:              [],
+      creado_at:            new Date().toLocaleString('es-ES', {
+        day:'2-digit', month:'2-digit', year:'numeric',
+        hour:'2-digit', minute:'2-digit'
+      }).replace(',', ''),
+    };
+  }
+
+  // ── Validar ───────────────────────────────────────────────────────────
+  function validate(ev) {
+    if (!ev.titulo) return 'Falta el título';
+    if (!ev.desc_corta) return 'Falta la descripción corta';
+    if (!ev.desc_larga) return 'Falta la descripción larga';
+    return null;
+  }
+
+  // ── Syntax highlight JSON ─────────────────────────────────────────────
+  function highlight(json) {
+    return json
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, m => {
+        if (/^"/.test(m)) {
+          return /:$/.test(m)
+            ? `<span class="json-key">${m}</span>`
+            : `<span class="json-str">${m}</span>`;
+        }
+        if (/true|false/.test(m)) return `<span class="json-bool">${m}</span>`;
+        if (/null/.test(m))       return `<span class="json-null">${m}</span>`;
+        return `<span class="json-num">${m}</span>`;
+      });
+  }
+
+  // ── Actualizar output ─────────────────────────────────────────────────
+  function update() {
+    const ev    = buildEvent();
+    const err   = validate(ev);
+    const evId  = shortUUID();
+    const obj   = { [evId]: ev };
+    const json  = JSON.stringify(obj, null, 2);
+
+    document.getElementById('json-output').innerHTML = highlight(json);
+
+    const dot  = document.getElementById('status-dot');
+    const txt  = document.getElementById('status-text');
+    if (err) {
+      dot.className = 'status-dot warn';
+      txt.textContent = err;
+    } else {
+      dot.className = 'status-dot ok';
+      txt.textContent = `Listo · ${cats.length} categoría(s)`;
+    }
+  }
+
+  // ── Copiar — eliminado ────────────────────────────────────────────────
+
+  // ── Descargar ─────────────────────────────────────────────────────────
+  function downloadJSON() {
+    const ev    = buildEvent();
+    const err   = validate(ev);
+    if (err) { alert('⚠️ ' + err); return; }
+
+    const evId  = shortUUID();
+    const json  = JSON.stringify({ [evId]: ev }, null, 2);
+    const blob  = new Blob([json], { type: 'application/json' });
+    const url   = URL.createObjectURL(blob);
+    const a     = document.createElement('a');
+    a.href      = url;
+    a.download  = `event_${evId}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── Limpiar ───────────────────────────────────────────────────────────
+  function resetForm() {
+    if (!confirm('¿Limpiar todo el formulario?')) return;
+    ['titulo','desc_corta','desc_larga','recompensas'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('requiere_inscripcion').checked = false;
+    document.getElementById('activo').checked = true;
+    cats = [];
+    removeImage();
+    renderCats();
+    update();
+    ['c-titulo','c-desc_corta','c-desc_larga'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '0';
+    });
+  }
+
+  // ── Categorías ────────────────────────────────────────────────────────
+  function openCatForm() {
+    document.getElementById('add-cat-form').classList.add('open');
+    document.getElementById('cat-nombre').focus();
+  }
+
+  function closeCatForm() {
+    document.getElementById('add-cat-form').classList.remove('open');
+    ['cat-nombre','cat-resumen','cat-detalles'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+  }
+
+  function addCat() {
+    const nombre  = document.getElementById('cat-nombre').value.trim();
+    const resumen = document.getElementById('cat-resumen').value.trim();
+    const detalles= document.getElementById('cat-detalles').value.trim();
+    if (!nombre) { document.getElementById('cat-nombre').focus(); return; }
+    cats.push({ nombre, resumen: resumen || null, detalles: detalles || null });
+    closeCatForm();
+    renderCats();
+    update();
+  }
+
+  function removeCat(i) {
+    cats.splice(i, 1);
+    renderCats();
+    update();
+  }
+
+  function renderCats() {
+    const list = document.getElementById('cats-list');
+    if (!cats.length) { list.innerHTML = ''; return; }
+    list.innerHTML = cats.map((c, i) => `
+      <div class="cat-item">
+        <div class="cat-num">${i + 1}</div>
+        <div class="cat-content">
+          <div class="cat-nombre">${escHtml(c.nombre)}</div>
+          ${c.resumen ? `<div class="cat-desc">${escHtml(c.resumen)}</div>` : ''}
+          ${c.detalles ? `<div class="cat-desc" style="margin-top:3px;font-style:italic">${escHtml(c.detalles.substring(0,80))}${c.detalles.length>80?'…':''}</div>` : ''}
+        </div>
+        <button class="cat-remove" onclick="removeCat(${i})" title="Eliminar">✕</button>
+      </div>
+    `).join('');
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── Init ──────────────────────────────────────────────────────────────
+  setupCounters();
+  update();
+</script>
+</body>
+</html>

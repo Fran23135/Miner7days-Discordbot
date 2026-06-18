@@ -1,0 +1,4 @@
+    BASE_DIR = os.getcwd()  # Obtener el directorio actual de forma segura
+    
+    # Luego construyes la ruta de forma segura (se encarga de las barras / o \ según el OS)
+    image_path = os.path.join(BASE_DIR, "images", "Hype.png")

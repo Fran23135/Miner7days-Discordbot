@@ -1,0 +1,222 @@
+[
+  {
+    "pregunta": "¿Cada cuántos días ocurre la Luna de Sangre en configuración predeterminada?",
+    "opciones": [
+      "3 días",
+      "5 días",
+      "7 días",
+      "14 días"
+    ],
+    "correcta": 2
+  },
+  {
+    "pregunta": "¿Cuál es la moneda principal para comerciar con los mercaderes?",
+    "opciones": [
+      "Caps de botella",
+      "Dukes Casino Token",
+      "Lingotes de oro",
+      "Créditos"
+    ],
+    "correcta": 1
+  },
+  {
+    "pregunta": "¿En qué estado de EE.UU. está ambientado el mapa Navezgane?",
+    "opciones": [
+      "Nevada",
+      "Texas",
+      "Arizona",
+      "California"
+    ],
+    "correcta": 2
+  },
+  {
+    "pregunta": "¿Qué bioma presenta el mayor nivel de peligro?",
+    "opciones": [
+      "Bosque de Pino",
+      "Bosque Quemado",
+      "NevadaA",
+      "Tierra Baldía"
+    ],
+    "correcta": 3
+  },
+  {
+    "pregunta": "¿Cómo se llama la marca ficticia de armas de fuego del juego?",
+    "opciones": [
+      "Iron Sights Co.",
+      "Shotgun Messiah",
+      "Gun Runner",
+      "Desert Arms"
+    ],
+    "correcta": 1
+  },
+  {
+    "pregunta": "¿Qué material es superior al Hierro Forjado?",
+    "opciones": [
+      "Adoquin reforzado",
+      "Acero Forjado",
+      "Madera tratada",
+      "Titanio"
+    ],
+    "correcta": 1
+  },
+  {
+    "pregunta": "¿Cuál de estos Minerales No Es de 7 days to die?",
+    "opciones": [
+      "Hierro",
+      "Plomo",
+      "Cobre",
+      "Carbon"
+    ],
+    "correcta": 2
+  },
+  {
+    "pregunta": "¿Qué atributo mejora la velocidad de movimiento y el parkour?",
+    "opciones": [
+      "Fuerza",
+      "Agilidad",
+      "Percepción",
+      "Intelecto"
+    ],
+    "correcta": 1
+  },
+  {
+    "pregunta": "¿Qué perk incrementa el peso máximo transportable?",
+    "opciones": [
+      "Lucky Looter",
+      "Pack Mule",
+      "Run and Gun",
+      "Daring Adventurer"
+    ],
+    "correcta": 1
+  },
+  {
+    "pregunta": "¿Cuál de estos Traders esta ubicado en Bosque Quemado?",
+    "opciones": [
+      "Rekt",
+      "Jen",
+      "Bob",
+      "Hugh"
+    ],
+    "correcta": 1
+  },
+  {
+    "pregunta": "¿Cuántos puntos de habilidad se obtienen al subir de nivel?",
+    "opciones": [
+      "1",
+      "2",
+      "3",
+      "5"
+    ],
+    "correcta": 0
+  },
+  {
+    "pregunta": "¿Cómo se llama el mapa generado de forma procedural (no fijo)?",
+    "opciones": [
+      "Navezgane",
+      "Mundo Aleatorio",
+      "Modo Aventura",
+      "Sandbox"
+    ],
+    "correcta": 1
+  },
+  {
+    "pregunta": "¿Qué herramienta es la más eficiente para cavar tierra y arena?",
+    "opciones": [
+      "Pico",
+      "Hacha",
+      "Pala",
+      "Azadón"
+    ],
+    "correcta": 2
+  },
+  {
+    "pregunta": "¿Con qué material básico se fabrican vendas (Bandages) al inicio?",
+    "opciones": [
+      "Trozo de Tela",
+      "Cuero",
+      "Algodón",
+      "Fibra de Planta"
+    ],
+    "correcta": 0
+  },
+  {
+    "pregunta": "¿Qué tipo de munición utiliza las Ametralladoras (Machine Guns)?",
+    "opciones": [
+      "Balas de Escopeta",
+      "Flechas",
+      "Balas 7.62mm",
+      "Balas 9mm"
+    ],
+    "correcta": 2
+  },
+  {
+    "pregunta": "¿Qué POI Encontraras Super maiz el 100% de veces?",
+    "opciones": [
+      "Pop-N-Pills Factory",
+      "Bob's Boars & Carl's Corn",
+      "NDC Checkpoin Three",
+      "Grover High"
+    ],
+    "correcta": 1
+  },
+  {
+    "pregunta": "¿Qué debuff provoca estar mucho tiempo bajo la lluvia sin protección?",
+    "opciones": [
+      "Velocidad reducida",
+      "Temperatura baja / riesgo de hipotermia",
+      "Hambre acelerada",
+      "Pérdida de stamina"
+    ],
+    "correcta": 1
+  },
+  {
+    "pregunta": "¿Qué atributo potencia el daño con armas de dos manos como mazas?",
+    "opciones": [
+      "Fuerza",
+      "Agilidad",
+      "Resistencia",
+      "Combate"
+    ],
+    "correcta": 0
+  },
+  {
+    "pregunta": "¿Cuál de estos animales NO existe en el juego base de 7 Days to Die?",
+    "opciones": [
+      "Lobo",
+      "Oso",
+      "Ciervo (Deer)",
+      "Cocodrilo"
+    ],
+    "correcta": 3
+  },
+  {
+    "pregunta": "¿Qué acción realiza el zombie 'Spider' (Araña) que lo diferencia de los demás?",
+    "opciones": [
+      "Explota al morir",
+      "Saltar hacia el jugador",
+      "Lanza proyectiles",
+      "Es invisible"
+    ],
+    "correcta": 1
+  },
+  {
+    "pregunta": "¿En qué categoría del menú de crafteo se encuentran las trampas?",
+    "opciones": [
+      "Herramientas",
+      "Equipamiento",
+      "Construcción / Trampas",
+      "Recursos"
+    ],
+    "correcta": 2
+  },
+  {
+    "pregunta": "¿Cómo se llama el sistema de progresión principal del juego?",
+    "opciones": [
+      "Árbol de talentos",
+      "Sistema de Habilidades y Perks",
+      "Clases de personaje",
+      "Sistema de experiencia lineal"
+    ],
+    "correcta": 1
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "anime_name": "K-On",
+    "url": "https://nekos.best/api/v2/cry/8dccd12b-8685-4819-b539-abb0a0d3ac7b.gif",
+    "dimensions": {
+      "width": 480,
+      "height": 270
+    }
+  },
+  {
+    "anime_name": "Free! Eternal Summer",
+    "url": "https://nekos.best/api/v2/cry/35f4d43f-9a6a-4d63-97a9-0fa7379842cb.gif",
+    "dimensions": {
+      "width": 500,
+      "height": 281
+    }
+  },
+  {
+    "anime_name": "Hibike! Euphonium",
+    "url": "https://nekos.best/api/v2/cry/a384d06c-1a40-40a2-8916-a1bf02dcc89e.gif",
+    "dimensions": {
+      "width": 498,
+      "height": 280
+    }
+  },
+  {
+    "anime_name": "Danjo no Yuujou wa Seiritsu Suru",
+    "url": "https://nekos.best/api/v2/cry/a81eff97-ef05-4313-a865-b36398c546d8.gif",
+    "dimensions": {
+      "width": 498,
+      "height": 281
+    }
+  }
+]

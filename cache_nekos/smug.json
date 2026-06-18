@@ -1,0 +1,74 @@
+[
+  {
+    "anime_name": "Sword Art Online",
+    "url": "https://nekos.best/api/v2/smug/449371c1-1518-44c3-b813-e53eb3d7c2fb.gif"
+  },
+  {
+    "anime_name": "Fairy Tail",
+    "url": "https://nekos.best/api/v2/smug/a64545f5-5b98-43e0-8af7-5c542a82d7d0.gif"
+  },
+  {
+    "anime_name": "Akebi-chan no Sailor Fuku",
+    "url": "https://nekos.best/api/v2/smug/3bf6b4d7-ce72-4975-a6b5-9ddb3f499c78.gif"
+  },
+  {
+    "anime_name": "Vividred Operation",
+    "url": "https://nekos.best/api/v2/smug/7d48fb33-328d-4cbc-ad8b-31b268ffa751.gif"
+  },
+  {
+    "anime_name": "Monster Musume no Iru Nichijou",
+    "url": "https://nekos.best/api/v2/smug/16a31daf-3d99-4147-8068-82060e827ac5.gif"
+  },
+  {
+    "anime_name": "Kobayashi-san Chi no Maid Dragon",
+    "url": "https://nekos.best/api/v2/smug/6dabd39f-0312-4bea-a3dc-060af4be1eae.gif"
+  },
+  {
+    "anime_name": "Nisekoi",
+    "url": "https://nekos.best/api/v2/smug/51722a3f-55aa-443c-a996-3fe5b023a0cd.gif",
+    "dimensions": {
+      "width": 500,
+      "height": 281
+    }
+  },
+  {
+    "anime_name": "Kishuku Gakkou no Juliet",
+    "url": "https://nekos.best/api/v2/smug/2cbc8e3c-3d1e-45ab-8520-bad609a6c6ce.gif",
+    "dimensions": {
+      "width": 498,
+      "height": 278
+    }
+  },
+  {
+    "anime_name": "Ore no Imouto ga Konna ni Kawaii Wake ga Nai",
+    "url": "https://nekos.best/api/v2/smug/f2415d2c-5c52-4da2-a86e-f501520a5f34.gif",
+    "dimensions": {
+      "width": 640,
+      "height": 354
+    }
+  },
+  {
+    "anime_name": "Kekkai Sensen",
+    "url": "https://nekos.best/api/v2/smug/77d30575-bd9d-4d00-92ea-eac3a96f0d7a.gif",
+    "dimensions": {
+      "width": 442,
+      "height": 250
+    }
+  },
+  {
+    "anime_name": "Amaama to Inazuma",
+    "url": "https://nekos.best/api/v2/smug/69bc0223-5614-4c5e-beac-2d46bb7e9703.gif",
+    "dimensions": {
+      "width": 498,
+      "height": 278
+    }
+  },
+  {
+    "anime_name": "Girlish Number",
+    "url": "https://nekos.best/api/v2/smug/4aa1051f-d7f7-47b0-8268-745f6f156d20.gif",
+    "dimensions": {
+      "width": 498,
+      "height": 283
+    }
+  }
+]

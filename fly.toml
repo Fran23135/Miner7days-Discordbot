@@ -1,0 +1,28 @@
+# fly.toml app configuration file generated for miner7days on 2026-06-14T16:59:17-06:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'miner7days'
+primary_region = 'dfw'
+
+[build]
+
+[[mounts]]
+  source = 'bot_data'
+  destination = '/data'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  min_machines_running = 1
+  auto_stop_machines = false
+  auto_start_machines = true
+  processes = ['app']
+
+[[vm]]
+  memory = '4gb'
+  cpus = 2
+  memory_mb = 4096
+
+  

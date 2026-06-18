@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Avisos - 7 Days Server</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ff6b6b;
+            font-size: 2.5em;
+            text-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+        }
+        
+        h2 {
+            color: #4ecdc4;
+            margin: 25px 0 15px;
+            border-bottom: 2px solid #4ecdc4;
+            padding-bottom: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a9b7c6;
+            font-weight: 500;
+        }
+        
+    select, input, textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #2c3e50;
+    border-radius: 8px;
+    background: #1a1a2e; /* Color sólido oscuro en lugar de transparente */
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s;
+    }
+
+    /* Estilo específico para las opciones del select */
+    select option {
+    background-color: #1a1a2e;
+    color: #fff;
+    padding: 10px;
+    }
+
+    /* Cuando el select está abierto/foco */
+    select:focus {
+    background-color: #1a1a2e;
+    }
+
+/* Para cuando se pasa el mouse sobre las opciones */
+    select option:hover,
+    select option:focus,
+    select option:checked {
+    background-color: #1a1a2e;
+    color: #fafafa;
+    }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .mensajes-predefinidos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .mensaje-option {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid #2c3e50;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .mensaje-option:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #4ecdc4;
+            transform: translateY(-2px);
+        }
+        
+        .mensaje-option h4 {
+            color: #ffd166;
+            margin-bottom: 8px;
+        }
+        
+        .file-upload {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed #2c3e50;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload:hover {
+            border-color: #4ecdc4;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        .preview {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            border-left: 5px solid #4ecdc4;
+        }
+        
+        .preview h3 {
+            color: #4ecdc4;
+            margin-bottom: 15px;
+        }
+        
+        .preview-embed {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .color-picker {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-option.selected {
+            border-color: white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.5s;
+            z-index: 1000;
+        }
+        
+        .notification.success {
+            background: #27ae60;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: #e74c3c;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        #tageo_custom {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #4ecdc4;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: all 0.3s;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 SISTEMA DE AVISOS - 7 DAYS</h1>
+        
+        <div class="form-group">
+            <label for="canal">📌 Canal de Destino:</label>
+            <select id="canal">
+                {% for nombre, id in canales.items() %}
+                <option value="{{ id }}">{{ nombre|upper }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+    <label for="tageo">👥 Taggear a:</label>
+    <select id="tageo">
+        <option value="everyone">@everyone (Todos)</option>
+        <option value="here">@here (En línea)</option>
+        <option value="none" selected>Sin tag (Solo notificación)</option>
+        <option value="custom">Etiqueta personalizada...</option>
+    </select>
+    <input type="text" id="tageo_custom" placeholder="Ej: @admin, @moderadores" 
+           style="margin-top: 10px; display: none;">
+</div>
+        <h2>📝 Seleccionar Mensaje Predefinido</h2>
+        <div class="mensajes-predefinidos">
+            {% for key, mensaje in mensajes.items() %}
+            <div class="mensaje-option" onclick="seleccionarMensaje('{{ key }}')">
+                <h4>{{ mensaje.titulo|safe }}</h4>
+                <p>{{ mensaje.mensaje }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <h2>✏️ Mensaje Personalizado</h2>
+        <div class="form-group">
+            <label for="titulo">📌 Título del Aviso:</label>
+            <input type="text" id="titulo" placeholder="Ej: ⚠️ AVISO IMPORTANTE">
+        </div>
+        
+        <div class="form-group">
+            <label for="mensaje">💬 Mensaje:</label>
+            <textarea id="mensaje" placeholder="Escribe aquí el mensaje del aviso..."></textarea>
+        </div>
+        
+        <h2>🎨 Color del Embed</h2>
+        <div class="color-picker">
+            <div class="color-option selected" style="background: #8B0000;" onclick="seleccionarColor('8B0000')" title="Rojo Oscuro"></div>
+            <div class="color-option" style="background: #00FF00;" onclick="seleccionarColor('00FF00')" title="Verde"></div>
+            <div class="color-option" style="background: #FF0000;" onclick="seleccionarColor('FF0000')" title="Rojo"></div>
+            <div class="color-option" style="background: #FFA500;" onclick="seleccionarColor('FFA500')" title="Naranja"></div>
+            <div class="color-option" style="background: #FF00FF;" onclick="seleccionarColor('FF00FF')" title="Magenta"></div>
+            <div class="color-option" style="background: #0000FF;" onclick="seleccionarColor('0000FF')" title="Azul"></div>
+        </div>
+        
+        <h2>🖼️ Imagen (Opcional)</h2>
+        <div class="form-group">
+            <div class="file-upload" onclick="document.getElementById('imagen').click()">
+                📎 Haz clic para subir una imagen
+            </div>
+            <input type="file" id="imagen" accept="image/*" style="display: none;" onchange="previewImagen()">
+            <div id="preview-container" style="margin-top: 10px;"></div>
+            <input type="text" id="imagen_url" placeholder="O ingresa una URL de imagen" style="margin-top: 10px;">
+        </div>
+        
+        <button class="btn" onclick="enviarAviso()">🚀 ENVIAR AVISO</button>
+        
+        <div class="preview">
+            <h3>👁️ VISTA PREVIA DEL EMBED</h3>
+            <div class="preview-embed" id="preview-embed">
+                <!-- Vista previa dinámica -->
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification"></div>
+    
+    <script>
+          let mensajesPredefinidos = JSON.parse('{{ mensajes|tojson|safe }}');
+        let colorSeleccionado = '8B0000';
+        let imagenUrl = '';
+        
+        function seleccionarMensaje(key) {
+            const mensaje = mensajesPredefinidos[key];
+            document.getElementById('titulo').value = mensaje.titulo;
+            document.getElementById('mensaje').value = mensaje.mensaje;
+            seleccionarColor(mensaje.color);
+            actualizarPreview();
+        }
+        
+        function seleccionarColor(color) {
+            colorSeleccionado = color;
+            document.querySelectorAll('.color-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+            actualizarPreview();
+        }
+        
+        function previewImagen() {
+            const file = document.getElementById('imagen').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagenUrl = e.target.result;
+                    document.getElementById('preview-container').innerHTML = `
+                        <img src="${imagenUrl}" style="max-width: 200px; border-radius: 8px; margin-top: 10px;">
+                    `;
+                    actualizarPreview();
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function actualizarPreview() {
+            const titulo = document.getElementById('titulo').value || 'TÍTULO DEL AVISO';
+            const mensaje = document.getElementById('mensaje').value || 'Mensaje del aviso aquí...';
+            
+            document.getElementById('preview-embed').innerHTML = `
+                <div style="border-left: 5px solid #${colorSeleccionado}; padding-left: 10px; margin-bottom: 15px;">
+                    <strong>${titulo}</strong><br>
+                    ${mensaje}
+                </div>
+                ${imagenUrl ? `<img src="${imagenUrl}" style="max-width: 100%; border-radius: 5px;">` : ''}
+                <div style="margin-top: 10px; font-size: 0.9em; color: #aaa;">
+                    Color: #${colorSeleccionado}
+                </div>
+            `;
+        }
+        
+        function mostrarNotificacion(mensaje, tipo) {
+            const notification = document.getElementById('notification');
+            notification.textContent = mensaje;
+            notification.className = `notification ${tipo}`;
+            setTimeout(() => {
+                notification.className = 'notification';
+            }, 3000);
+        }
+        
+        async function enviarAviso() {
+            const canal = document.getElementById('canal').value;
+            const titulo = document.getElementById('titulo').value;
+            const mensaje = document.getElementById('mensaje').value;
+            const tageo = document.getElementById('tageo').value;
+            const tageoCustom = document.getElementById('tageo_custom').value;
+            if (!titulo || !mensaje) {
+                mostrarNotificacion('❌ Completa título y mensaje', 'error');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('canal', canal);
+            formData.append('titulo', titulo);
+            formData.append('mensaje', mensaje);
+            formData.append('color', colorSeleccionado);
+            formData.append('tageo', tageo);
+            if (tageo === 'custom' && tageoCustom) {
+            // Agregar @ automáticamente si no lo tiene
+             const tagConArroba = tageoCustom.startsWith('@') ? tageoCustom : '@' + tageoCustom;
+            formData.append('tageo_custom', tagConArroba);
+            } else {
+            formData.append('tageo_custom', '');
+             }
+            const imagenFile = document.getElementById('imagen').files[0];
+            if (imagenFile) {
+                formData.append('imagen', imagenFile);
+            }
+            
+            try {
+                const response = await fetch('/enviar_aviso', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    mostrarNotificacion('✅ Aviso preparado para enviar', 'success');
+                    // Limpiar formulario
+                    document.getElementById('titulo').value = '';
+                    document.getElementById('mensaje').value = '';
+                    document.getElementById('imagen').value = '';
+                    document.getElementById('imagen_url').value = '';
+                    document.getElementById('preview-container').innerHTML = '';
+                    imagenUrl = '';
+                    actualizarPreview();
+                } else {
+                    mostrarNotificacion('❌ ' + (data.error || 'Error desconocido'), 'error');
+                }
+            } catch (error) {
+                mostrarNotificacion('❌ Error de conexión', 'error');
+                console.error(error);
+            }
+        }
+        
+        // Actualizar vista previa al escribir
+        document.getElementById('titulo').addEventListener('input', actualizarPreview);
+        document.getElementById('mensaje').addEventListener('input', actualizarPreview);
+        document.getElementById('imagen_url').addEventListener('input', function() {
+            imagenUrl = this.value;
+            actualizarPreview();
+        });
+        document.getElementById('tageo').addEventListener('change', function() {
+        const customField = document.getElementById('tageo_custom');
+         customField.style.display = this.value === 'custom' ? 'block' : 'none';
+           });
+        
+        // Inicializar vista previa
+        actualizarPreview();
+    </script>
+</body>
+</html>
