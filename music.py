@@ -30,11 +30,7 @@ YTDLP_OPTS = {
     "quiet": True,
     "noplaylist": True,
     "default_search": "ytsearch",
-    "extractor_args": {
-        "youtube": {
-            "player_client": ["ios"],  # iOS no necesita PO token
-        }
-    },
+    "js_runtimes": {"node": {}},
 }
 
 FFMPEG_OPTS = {
