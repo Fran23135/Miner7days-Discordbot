@@ -31,6 +31,7 @@ YTDLP_OPTS = {
     "noplaylist": True,
     "default_search": "ytsearch",
     "js_runtimes": {"node": {}},
+    
 }
 
 FFMPEG_OPTS = {
