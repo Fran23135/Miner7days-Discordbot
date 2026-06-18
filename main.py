@@ -1989,7 +1989,7 @@ async def on_ready():
     if "devdb"        not in bot.extensions:
         await bot.load_extension("devdb")
         
-    #await bot.load_extension("tess_cog")    
+    await bot.load_extension("tess_cog")    
     await bot.load_extension("ticket")
     await bot.load_extension("battle")
     await bot.load_extension("trivia")
