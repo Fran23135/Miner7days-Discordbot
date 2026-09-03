@@ -2000,7 +2000,7 @@ async def on_ready():
     await bot.load_extension("decoracion")
     await bot.load_extension("mods")
     await bot.load_extension("userhelp")
-    await bot.load_extension("music")
+    #await bot.load_extension("music")
     await bot.load_extension("time_cog")
    # if "events" not in bot.extensions:   # ← Guarda antes de cargar
         #await bot.load_extension("events")
