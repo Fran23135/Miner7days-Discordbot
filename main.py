@@ -61,7 +61,11 @@ async def get_prefix(bot, message):
 
 bot = commands.Bot(command_prefix=get_prefix, intents=intents)
 bot.remove_command('help')
-
+@bot.command(name="ping")
+async def ping(ctx: commands.Context):
+    """!ping → muestra la latencia del websocket con Discord."""
+    latencia_ms = round(bot.latency * 1000)
+    await ctx.send(f"🏓 Pong! `{latencia_ms}ms`")
 # Registrar comandos de interacciones
 for tag, data in interact.INTERACCIONES.items():
     cmd_es, frase_con, frase_pasado, label, emoji, msg_bot, frase_sin = data[:7]
@@ -1977,19 +1981,19 @@ async def modlist(ctx):
 
 @bot.event
 async def on_ready():
-    #await _db_niveles.init_db()
-    #await _init_rangos(bot)   # carga rangos_ids.json si ya existe
-    #await _init_miembros(bot)
+    await _db_niveles.init_db()
+    await _init_rangos(bot)   # carga rangos_ids.json si ya existe
+    await _init_miembros(bot)
  
     # ── NUEVO: cargar cog de niveles ──────────────────────────────────
-    '''if "niveles"      not in bot.extensions:
+    if "niveles"      not in bot.extensions:
         await bot.load_extension("niveles")
     if "crear_rangos" not in bot.extensions:
         await bot.load_extension("crear_rangos")
     if "devdb"        not in bot.extensions:
         await bot.load_extension("devdb")
-        '''
-    await bot.load_extension("tess_cog")    
+        
+    #await bot.load_extension("tess_cog")    
     await bot.load_extension("ticket")
     await bot.load_extension("battle")
     await bot.load_extension("trivia")

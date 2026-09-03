@@ -5,6 +5,17 @@ import discord
 from discord.ui import Button, View
 from discord.ext import commands
 from status7d import nekos_cache
+from niveles import otorgar_xp
+
+# XP por usar un comando de interacción (más alto que un mensaje normal)
+XP_INTERACT_INICIAR_MIN       = 20
+XP_INTERACT_INICIAR_MAX       = 30
+COOLDOWN_INTERACT_INICIAR_SEG = 45
+
+# XP por devolver la interacción con el botón (más alto que iniciarla)
+XP_INTERACT_DEVOLVER_MIN       = 25
+XP_INTERACT_DEVOLVER_MAX       = 35
+COOLDOWN_INTERACT_DEVOLVER_SEG = 45
 
 # ------------------------------------------------------------
 # LISTAS DE RESPUESTAS (mensajes de texto que aparecen ARRIBA del primer embed)
@@ -166,6 +177,13 @@ def crear_comando_interaccion(tag, nombre_comando, frase_con_target, frase_pasad
             embed, gif_file = make_embed(titulo, gif_info)
             view = AccionView(ctx.author, ctx.bot.user, frase_con_target, frase_pasado, label_boton, tag, emoji)
             await _send_gif(ctx.send, embed, gif_file, view=view)
+            await otorgar_xp(
+                ctx.author, ctx.guild,
+                XP_INTERACT_INICIAR_MIN, XP_INTERACT_INICIAR_MAX,
+                fuente="interact_iniciar",
+                cooldown_fuente_segundos=COOLDOWN_INTERACT_INICIAR_SEG,
+                canal_fallback=ctx.channel,
+            )
             await ctx.reply(respuesta_bot)
             gif_info2 = nekos_cache.obtener_gif(tag)
             if gif_info2:
@@ -196,6 +214,13 @@ def crear_comando_interaccion(tag, nombre_comando, frase_con_target, frase_pasad
         embed, gif_file = make_embed(titulo, gif_info)
         view = AccionView(ctx.author, target, frase_con_target, frase_pasado, label_boton, tag, emoji, frase_pasado_solo)
         await _send_gif(ctx.send, embed, gif_file, view=view)
+        await otorgar_xp(
+            ctx.author, ctx.guild,
+            XP_INTERACT_INICIAR_MIN, XP_INTERACT_INICIAR_MAX,
+            fuente="interact_iniciar",
+            cooldown_fuente_segundos=COOLDOWN_INTERACT_INICIAR_SEG,
+            canal_fallback=ctx.channel,
+        )
 
     return comando
 
@@ -250,6 +275,13 @@ class AccionView(View):
 
         embed, gif_file = make_embed(titulo, gif_info)
         await _send_gif(interaction.message.reply, embed, gif_file)
+        await otorgar_xp(
+            interaction.user, interaction.guild,
+            XP_INTERACT_DEVOLVER_MIN, XP_INTERACT_DEVOLVER_MAX,
+            fuente="interact_devolver",
+            cooldown_fuente_segundos=COOLDOWN_INTERACT_DEVOLVER_SEG,
+            canal_fallback=interaction.channel,
+        )
         await interaction.response.defer()
 
 
@@ -296,6 +328,13 @@ class SoloView(View):
         titulo = f"{interaction.user.display_name} {self.frase_pasado} {self.autor.display_name}."
         embed, gif_file = make_embed(titulo, gif_info)
         await _send_gif(interaction.message.reply, embed, gif_file)
+        await otorgar_xp(
+            interaction.user, interaction.guild,
+            XP_INTERACT_DEVOLVER_MIN, XP_INTERACT_DEVOLVER_MAX,
+            fuente="interact_devolver",
+            cooldown_fuente_segundos=COOLDOWN_INTERACT_DEVOLVER_SEG,
+            canal_fallback=interaction.channel,
+        )
         await interaction.response.defer()
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
@@ -315,6 +354,13 @@ def crear_comando_solo(tag, nombre_comando, frase, emoji, label_boton, frase_pas
         embed, gif_file = make_embed(titulo, gif_info)
         view = SoloView(tag, ctx.author, frase, frase_pasado, emoji, label_boton)
         await _send_gif(ctx.send, embed, gif_file, view=view)
+        await otorgar_xp(
+            ctx.author, ctx.guild,
+            XP_INTERACT_INICIAR_MIN, XP_INTERACT_INICIAR_MAX,
+            fuente="interact_iniciar",
+            cooldown_fuente_segundos=COOLDOWN_INTERACT_INICIAR_SEG,
+            canal_fallback=ctx.channel,
+        )
     return comando
 
 

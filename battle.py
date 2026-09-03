@@ -5,6 +5,14 @@ from datetime import datetime, timedelta
 from discord.ext import commands
 from interact import make_embed, INTERACCIONES
 from status7d import nekos_cache
+from niveles import otorgar_xp
+
+# XP por ganar/perder un battle — el ganador se lleva bastante más.
+XP_BATTLE_GANA_MIN      = 20
+XP_BATTLE_GANA_MAX      = 35
+XP_BATTLE_PIERDE_MIN    = 2
+XP_BATTLE_PIERDE_MAX    = 5
+COOLDOWN_BATTLE_SEGUNDOS = 60
 
 # ─────────────────────────────────────────────
 #  CONFIGURACIÓN
@@ -388,6 +396,21 @@ class BattleCog(commands.Cog, name="Batalla"):
         await msg.edit(embed=victory)
         _set_cd(f1.id, f2.id)
 
+        await otorgar_xp(
+            winner, channel.guild,
+            XP_BATTLE_GANA_MIN, XP_BATTLE_GANA_MAX,
+            fuente="battle_gana",
+            cooldown_fuente_segundos=COOLDOWN_BATTLE_SEGUNDOS,
+            canal_fallback=channel,
+        )
+        await otorgar_xp(
+            loser, channel.guild,
+            XP_BATTLE_PIERDE_MIN, XP_BATTLE_PIERDE_MAX,
+            fuente="battle_pierde",
+            cooldown_fuente_segundos=COOLDOWN_BATTLE_SEGUNDOS,
+            canal_fallback=channel,
+        )
+
     # ── Lógica de batalla usuario vs bot ──────
     async def do_bot_battle(self, channel, challenger, bot_user):
         msg    = await _run_rounds(channel, challenger, bot_user, ROUNDS_BOT)
@@ -397,6 +420,21 @@ class BattleCog(commands.Cog, name="Batalla"):
             winner, loser = challenger, bot_user
         victory = await _victory_embed(winner, loser)
         await msg.edit(embed=victory)
+
+        await otorgar_xp(
+            winner, channel.guild,
+            XP_BATTLE_GANA_MIN, XP_BATTLE_GANA_MAX,
+            fuente="battle_gana",
+            cooldown_fuente_segundos=COOLDOWN_BATTLE_SEGUNDOS,
+            canal_fallback=channel,
+        )
+        await otorgar_xp(
+            loser, channel.guild,
+            XP_BATTLE_PIERDE_MIN, XP_BATTLE_PIERDE_MAX,
+            fuente="battle_pierde",
+            cooldown_fuente_segundos=COOLDOWN_BATTLE_SEGUNDOS,
+            canal_fallback=channel,
+        )
 
     # ── Comando !battle / !pelear ─────────────
     @commands.command(name="battle", aliases=["pelear"])

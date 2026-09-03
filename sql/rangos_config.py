@@ -20,7 +20,7 @@ _DEFINICIONES_DEFAULT: dict[int, str] = {
     10:  "🧱 Aprendiz",
     20:  "💫 Calvo",
     30:  "🧟 Zombie",
-    60:  "🔩 Master ",
+    60:  "🔩 Master",
     90:  "🔧 Pinchos",
     120: "⚡ Looter",
     150: "🔥 Tryhard",

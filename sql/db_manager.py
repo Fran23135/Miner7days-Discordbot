@@ -6,6 +6,7 @@ El archivo niveles.db se crea solo en esta carpeta al arrancar.
 
 import aiosqlite
 import os
+import json
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "niveles.db")
 #DB_PATH = os.path.join("/data", "niveles.db")
@@ -23,8 +24,84 @@ async def init_db() -> None:
                 rol_elegido  INTEGER NOT NULL DEFAULT 0
             )
         """)
+        # Cooldown independiente por categoría de XP (mensaje, interact, battle,
+        # trivia, reaccion...). Cada fuente tiene su propia ventana, separada
+        # de las demás.
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS cooldowns_xp (
+                discord_id TEXT NOT NULL,
+                fuente     TEXT NOT NULL,
+                last_ts    REAL NOT NULL DEFAULT 0,
+                PRIMARY KEY (discord_id, fuente)
+            )
+        """)
+        # Estado del límite global anti-abuso: cuántas categorías distintas
+        # de XP se han otorgado en la ventana actual, y hasta cuándo dura el
+        # cooldown global una vez que se llega a 2 categorías distintas.
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS xp_anti_abuso (
+                discord_id            TEXT PRIMARY KEY,
+                categorias_activas    TEXT NOT NULL DEFAULT '[]',
+                cooldown_global_hasta REAL NOT NULL DEFAULT 0
+            )
+        """)
         await db.commit()
     print("✅ [Niveles] Base de datos lista.")
+
+
+async def get_cooldown_fuente(discord_id: str, fuente: str) -> float:
+    """Devuelve el timestamp del último XP otorgado en esa fuente (0 si nunca)."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        async with db.execute(
+            "SELECT last_ts FROM cooldowns_xp WHERE discord_id = ? AND fuente = ?",
+            (discord_id, fuente),
+        ) as cur:
+            row = await cur.fetchone()
+            return row[0] if row else 0.0
+
+
+async def set_cooldown_fuente(discord_id: str, fuente: str, ts: float) -> None:
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute(
+            """
+            INSERT INTO cooldowns_xp (discord_id, fuente, last_ts)
+            VALUES (?, ?, ?)
+            ON CONFLICT(discord_id, fuente) DO UPDATE SET last_ts = excluded.last_ts
+            """,
+            (discord_id, fuente, ts),
+        )
+        await db.commit()
+
+
+async def get_estado_anti_abuso(discord_id: str) -> dict:
+    """{'categorias_activas': list[str], 'cooldown_global_hasta': float}"""
+    async with aiosqlite.connect(DB_PATH) as db:
+        async with db.execute(
+            "SELECT categorias_activas, cooldown_global_hasta FROM xp_anti_abuso WHERE discord_id = ?",
+            (discord_id,),
+        ) as cur:
+            row = await cur.fetchone()
+            if not row:
+                return {"categorias_activas": [], "cooldown_global_hasta": 0.0}
+            return {
+                "categorias_activas": json.loads(row[0]),
+                "cooldown_global_hasta": row[1],
+            }
+
+
+async def set_estado_anti_abuso(discord_id: str, categorias_activas: list, cooldown_global_hasta: float) -> None:
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute(
+            """
+            INSERT INTO xp_anti_abuso (discord_id, categorias_activas, cooldown_global_hasta)
+            VALUES (?, ?, ?)
+            ON CONFLICT(discord_id) DO UPDATE SET
+                categorias_activas = excluded.categorias_activas,
+                cooldown_global_hasta = excluded.cooldown_global_hasta
+            """,
+            (discord_id, json.dumps(categorias_activas), cooldown_global_hasta),
+        )
+        await db.commit()
 
 
 async def get_usuario(discord_id: str) -> dict | None:

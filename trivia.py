@@ -6,6 +6,12 @@ import os
 from discord.ext import commands
 from interact import make_embed, INTERACCIONES
 from status7d import nekos_cache
+from niveles import otorgar_xp
+
+# XP por participar en trivia — mismo rango para todos, sin importar si ganan.
+XP_TRIVIA_MIN            = 20
+XP_TRIVIA_MAX            = 30
+COOLDOWN_TRIVIA_SEGUNDOS = 60
 
 # ─────────────────────────────────────────────
 #  CONFIGURACIÓN
@@ -604,6 +610,19 @@ class TriviaCog(commands.Cog, name="Trivia"):
             uid for uid, total in aciertos.items()
             if total >= MINIMO_ACIERTOS_PREMIO
         }
+
+        # ── XP por participar (todo el que respondió al menos una pregunta,
+        # sin importar si acertó o llegó al mínimo de premio) ─────────────
+        for uid in aciertos.keys():
+            miembro = ctx.guild.get_member(uid)
+            if miembro:
+                await otorgar_xp(
+                    miembro, ctx.guild,
+                    XP_TRIVIA_MIN, XP_TRIVIA_MAX,
+                    fuente="trivia",
+                    cooldown_fuente_segundos=COOLDOWN_TRIVIA_SEGUNDOS,
+                    canal_fallback=ctx.channel,
+                )
 
         # ── Embed de resultados ───────────────
         results_embed = _embed_resultados(

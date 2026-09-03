@@ -53,6 +53,12 @@ _SECTIONS = {
                 "uso":  "`!decoracion`",
                 "args": "Ninguno.",
             },
+            {
+                "cmd": "top", "emoji": "🏆",
+                "desc": "Abre el top de Experiencia",
+                "uso":  "`!top`",
+                "args": "Ninguno.",
+            },
         ],
     },
 
